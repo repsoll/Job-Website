@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yana Mykhailova — QA / Python trainee</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper: #EDEEE7;
+    --card: #F8F9F4;
+    --ink: #1E241F;
+    --ink-soft: #565E58;
+    --line: #C7CBC0;
+    --line-strong: #9BA095;
+    --accent: #2F6B4A;
+    --accent-soft: #E1EAE1;
+    --wip: #8C4A2E;
+    --wip-soft: #F1E4DC;
+    --max: 720px;
+  }
+
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+
+  body{
+    margin:0;
+    background:var(--paper);
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px);
+    background-size: 100% 32px;
+    color:var(--ink);
+    font-family:'IBM Plex Sans', sans-serif;
+    line-height:1.6;
+    font-size:16px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
+  }
+
+  a{color:var(--accent); text-decoration-thickness:1px; text-underline-offset:3px;}
+  a:focus-visible, button:focus-visible, summary:focus-visible{
+    outline:2px solid var(--accent);
+    outline-offset:3px;
+  }
+
+  .wrap{
+    max-width:var(--max);
+    margin:0 auto;
+    padding: 56px 24px 80px;
+  }
+
+  /* ---------- header / document title block ---------- */
+  .doc-head{
+    background:var(--card);
+    border:1px solid var(--line-strong);
+    padding: 28px 28px 24px;
+  }
+
+  .doc-id{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    color:var(--ink-soft);
+    letter-spacing:0.02em;
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:8px 20px;
+    padding-bottom:16px;
+    margin-bottom:20px;
+    border-bottom:1px solid var(--line);
+  }
+
+  .status-badge{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    color:var(--accent);
+    border:1px solid var(--accent);
+    padding:2px 8px;
+    white-space:nowrap;
+  }
+
+  h1{
+    font-family:'IBM Plex Serif', serif;
+    font-weight:600;
+    font-size:clamp(30px, 5vw, 42px);
+    line-height:1.15;
+    margin:0 0 12px;
+    letter-spacing:-0.01em;
+  }
+
+  .role-line{
+    font-size:17px;
+    color:var(--ink-soft);
+    margin:0 0 20px;
+    max-width:52ch;
+  }
+
+  .field-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px 24px;
+    font-size:14px;
+    padding-top:16px;
+    border-top:1px solid var(--line);
+  }
+
+  .field dt{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+    color:var(--ink-soft);
+    margin-bottom:3px;
+  }
+  .field dd{margin:0;}
+
+  /* ---------- sections ---------- */
+  section{margin-top:56px;}
+
+  .section-head{
+    display:flex;
+    align-items:baseline;
+    gap:12px;
+    margin-bottom:18px;
+  }
+
+  .section-num{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    color:var(--ink-soft);
+  }
+
+  h2{
+    font-family:'IBM Plex Serif', serif;
+    font-weight:600;
+    font-size:22px;
+    margin:0;
+  }
+
+  .about p{
+    max-width:62ch;
+    margin:0 0 14px;
+    color:var(--ink);
+  }
+  .about p:last-child{margin-bottom:0;}
+
+  /* ---------- test-case project entries ---------- */
+  .case-list{
+    border-top:1px solid var(--line-strong);
+  }
+
+  .case{
+    border-bottom:1px solid var(--line-strong);
+  }
+
+  .case-toggle{
+    width:100%;
+    background:none;
+    border:none;
+    text-align:left;
+    padding:18px 4px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    gap:16px;
+    font-family:inherit;
+    color:inherit;
+  }
+
+  .case-toggle:hover{background:var(--card);}
+
+  .case-id{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    color:var(--ink-soft);
+    flex-shrink:0;
+    width:64px;
+  }
+
+  .case-title{
+    flex:1;
+    font-weight:500;
+    font-size:16px;
+  }
+
+  .case-tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+    padding:2px 8px;
+    flex-shrink:0;
+    white-space:nowrap;
+  }
+  .case-tag.pass{color:var(--accent); background:var(--accent-soft);}
+  .case-tag.wip{color:var(--wip); background:var(--wip-soft);}
+
+  .case-chevron{
+    font-family:'IBM Plex Mono', monospace;
+    color:var(--ink-soft);
+    transition:transform 0.15s ease;
+    flex-shrink:0;
+  }
+  .case[open] .case-chevron{transform:rotate(90deg);}
+
+  .case-body{
+    padding: 0 4px 22px 84px;
+  }
+
+  .case-body p{
+    margin:0 0 10px;
+    max-width:56ch;
+    color:var(--ink);
+    font-size:15px;
+  }
+
+  .case-meta{
+    display:flex;
+    gap:10px 20px;
+    flex-wrap:wrap;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    color:var(--ink-soft);
+    margin-top:12px;
+  }
+
+  .case-meta a{font-family:'IBM Plex Mono', monospace;}
+
+  /* remove default marker */
+  summary{list-style:none;}
+  summary::-webkit-details-marker{display:none;}
+
+  /* ---------- contact ---------- */
+  .contact-grid{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px 28px;
+    border-top:1px solid var(--line-strong);
+    padding-top:20px;
+  }
+
+  .contact-grid a{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:14.5px;
+  }
+
+  /* ---------- sub-blocks inside "about me" ---------- */
+  .sub-block{margin-top:28px;}
+
+  .sub-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+    letter-spacing:0.04em;
+    color:var(--ink-soft);
+    margin:0 0 12px;
+    text-transform:uppercase;
+  }
+
+  .tag-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+
+  .tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    border:1px solid var(--line-strong);
+    padding:3px 10px;
+    color:var(--ink-soft);
+    background:var(--card);
+  }
+
+  .req-list{
+    list-style:none;
+    margin:0;
+    padding:0;
+    border-top:1px dashed var(--line);
+  }
+
+  .req-list li{
+    display:flex;
+    align-items:baseline;
+    gap:14px;
+    padding:9px 2px;
+    border-bottom:1px dashed var(--line);
+    font-size:14.5px;
+  }
+
+  .req-id{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:var(--ink-soft);
+    flex-shrink:0;
+    width:56px;
+  }
+
+  .req-name{flex:1;}
+
+  .req-check{
+    font-family:'IBM Plex Mono', monospace;
+    color:var(--accent);
+    flex-shrink:0;
+  }
+
+  .case-tag.note{
+    color:var(--ink-soft);
+    background:var(--card);
+    border:1px solid var(--line-strong);
+  }
+
+  footer{
+    margin-top:64px;
+    padding-top:18px;
+    border-top:1px solid var(--line);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:var(--ink-soft);
+  }
+
+  @media (max-width:520px){
+    .field-grid{grid-template-columns:1fr;}
+    .case-body{padding-left:4px;}
+    .case-id{width:auto;}
+    .doc-head{padding:22px 18px 20px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="doc-head">
+    <div class="doc-id">
+      <span>DOC&nbsp;YM-001&nbsp;/&nbsp;PORTFOLIO</span>
+      <span class="status-badge">STATUS: OPEN TO WORK</span>
+    </div>
+
+    <h1>Yana Mykhailova</h1>
+    <p class="role-line">Trainee QA (manual) / Trainee Python Developer. I check others' code and write my own — here are small pet projects, formatted the way I'm used to formatting test cases.</p>
+
+    <dl class="field-grid">
+      <div class="field">
+        <dt>EDUCATION</dt>
+        <dd>BSc in Software Engineering, Ivan Franko National University of Lviv, 2026</dd>
+      </div>
+      <div class="field">
+        <dt>LOCATION</dt>
+        <dd>Lviv, Ukraine</dd>
+      </div>
+    </dl>
+  </div>
+
+  <section class="about">
+    <div class="section-head">
+      <span class="section-num">01</span>
+      <h2>About me</h2>
+    </div>
+    <p>I have just finished my studies and am currently looking for my first job — in parallel, I am taking courses and keeping a preparation plan in a spreadsheet. I am mostly interested in QA and Python, as well as marketing and SEO as a direction I want to study alongside.</p>
+    <p>Good theoretical foundation in software testing and the software development life cycle, practice with databases and web application basics — from coursework, labs, and my diploma project. Attentive to details, structured in my approach, and truly passionate about games.</p>
+
+    <div class="sub-block">
+      <p class="sub-label">Key disciplines</p>
+      <div class="tag-row">
+        <span class="tag">Software Testing and Quality</span>
+        <span class="tag">Software Development Life Cycle</span>
+        <span class="tag">Relational and NoSQL Databases</span>
+        <span class="tag">Data Structures and Algorithms</span>
+        <span class="tag">OOP</span>
+        <span class="tag">Python</span>
+        <span class="tag">Web Technologies</span>
+        <span class="tag">Operating Systems</span>
+        <span class="tag">Machine learning / Deep learning</span>
+        <span class="tag">Digital Image Processing</span>
+      </div>
+    </div>
+
+    <div class="sub-block">
+      <p class="sub-label">Technical skills</p>
+      <ul class="req-list">
+        <li><span class="req-id">REQ-01</span><span class="req-name">Manual testing, test design, defect documentation, SDLC/QA cycle basics</span><span class="req-check">✓</span></li>
+        <li><span class="req-id">REQ-02</span><span class="req-name">Operating systems — macOS, Windows, Linux</span><span class="req-check">✓</span></li>
+        <li><span class="req-id">REQ-03</span><span class="req-name">SQL / relational databases (MySQL)</span><span class="req-check">✓</span></li>
+        <li><span class="req-id">REQ-04</span><span class="req-name">Web application structure basics and REST API</span><span class="req-check">✓</span></li>
+        <li><span class="req-id">REQ-05</span><span class="req-name">Python — language, OOP, data structures and algorithms</span><span class="req-check">✓</span></li>
+        <li><span class="req-id">REQ-06</span><span class="req-name">Deep learning / computer vision basics (PyTorch)</span><span class="req-check">✓</span></li>
+        <li><span class="req-id">REQ-07</span><span class="req-name">Git</span><span class="req-check">✓</span></li>
+        <li><span class="req-id">REQ-08</span><span class="req-name">Docker (basic)</span><span class="req-check">✓</span></li>
+      </ul>
+    </div>
+
+    <div class="sub-block">
+      <dl class="field-grid">
+        <div class="field">
+          <dt>SOFT SKILLS</dt>
+          <dd>Attention to detail, structural and analytical approach, teamwork, clear communication, fast learner</dd>
+        </div>
+        <div class="field">
+          <dt>LANGUAGES</dt>
+          <dd>Ukrainian — native · English — technical documentation, communication</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <span class="section-num">02</span>
+      <h2>Academic projects</h2>
+    </div>
+
+    <div class="case-list">
+
+      <details class="case">
+        <summary class="case-toggle">
+          <span class="case-id">AC-001</span>
+          <span class="case-title">Client-Support Interaction Microservice</span>
+          <span class="case-tag note">COURSE</span>
+          <span class="case-chevron">›</span>
+        </summary>
+        <div class="case-body">
+          <p><strong>What was done:</strong> backend microservice for communication between clients and tech support — request routing, ticket status tracking, messaging.</p>
+          <div class="case-meta">
+            <span>TOOLS: Python, Flask/FastAPI, MySQL, REST API</span>
+          </div>
+        </div>
+      </details>
+
+      <details class="case">
+        <summary class="case-toggle">
+          <span class="case-id">AC-002</span>
+          <span class="case-title">Image Quality Enhancement (UNet, Adaptive UNet)</span>
+          <span class="case-tag note">THESIS</span>
+          <span class="case-chevron">›</span>
+        </summary>
+        <div class="case-body">
+          <p><strong>What was done:</strong> diploma project — implementation and evaluation of image enhancement models based on UNet and Adaptive UNet architectures.</p>
+          <div class="case-meta">
+            <span>TOOLS: Python, PyTorch, NumPy, OpenCV</span>
+          </div>
+        </div>
+      </details>
+
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <span class="section-num">03</span>
+      <h2>Pet projects</h2>
+    </div>
+
+    <div class="case-list">
+
+      <details class="case" open>
+        <summary class="case-toggle">
+          <span class="case-id">TC-001</span>
+          <span class="case-title">Test plan for authorization form</span>
+          <span class="case-tag pass">PASS</span>
+          <span class="case-chevron">›</span>
+        </summary>
+        <div class="case-body">
+          <p><strong>What was tested:</strong> positive and negative login scenarios — empty fields, incorrect password, lockout after attempts, email case sensitivity.</p>
+          <p><strong>Result:</strong> 24 test cases, 3 defects found (2 confirmed), documented in a test plan with expected and actual results.</p>
+          <div class="case-meta">
+            <span>TOOLS: Google Sheets, Jira-style bug reports</span>
+            <a href="#" onclick="return false;">documentation ↗</a>
+          </div>
+        </div>
+      </details>
+
+      <details class="case">
+        <summary class="case-toggle">
+          <span class="case-id">TC-002</span>
+          <span class="case-title">API test suite for CRUD service</span>
+          <span class="case-tag pass">PASS</span>
+          <span class="case-chevron">›</span>
+        </summary>
+        <div class="case-body">
+          <p><strong>What was tested:</strong> endpoints for creating, reading, updating, and deleting records — response codes, request body validation, edge cases with invalid data.</p>
+          <p><strong>Result:</strong> autotests in Python (pytest + requests), separately — a manual testing checklist for regression.</p>
+          <div class="case-meta">
+            <span>TOOLS: Python, pytest, requests</span>
+            <a href="#" onclick="return false;">repository ↗</a>
+          </div>
+        </div>
+      </details>
+
+      <details class="case">
+        <summary class="case-toggle">
+          <span class="case-id">TC-003</span>
+          <span class="case-title">Manual testing checklist for cart and payment   </span>
+          <span class="case-tag wip">WIP</span>
+          <span class="case-chevron">›</span>
+        </summary>
+        <div class="case-body">
+          <p><strong>What is being tested:</strong> scenarios of adding/removing items, promo code application, total calculation when changing quantity.</p>
+          <p><strong>Status:</strong> drafted the checklist, currently writing boundary values and negative cases.</p>
+          <div class="case-meta">
+            <span>TOOLS: Excel, manual testing</span>
+          </div>
+        </div>
+      </details>
+
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <span class="section-num">04</span>
+      <h2>Contacts</h2>
+    </div>
+    <div class="contact-grid">
+      <a href="mailto:yanamyh2005@gmail.com">yanamyh2005@gmail.com</a>
+      <a href="tel:+380974356001">+380 97 435 6001</a>
+      <a href="#" onclick="return false;">github.com/yourname</a>
+      <a href="#" onclick="return false;">linkedin.com/in/yourname</a>
+      <a href="#" onclick="return false;">djinni.co/q/yourname</a>
+    </div>
+  </section>
+
+  <footer>Updated: August 2026</footer>
+
+</div>
+</body>
+</html>
